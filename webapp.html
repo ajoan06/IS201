@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rock Song Generator</title>
+  <style>
+    body {
+      font-family: 'Courier New', monospace;
+      background: radial-gradient(circle at center, #222 0%, #111 100%);
+      color: #f5f5f5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: start;
+      height: 100vh;
+      padding-top: 30px;
+      margin: 0;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.8em;
+      color: #ff0044;
+      text-shadow: 0 0 10px #ff0044;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1em;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background-color: #ff0044;
+      color: white;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #cc0033;
+    }
+
+    #output {
+      margin-top: 30px;
+      font-size: 1.3em;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 500px;
+    }
+
+    img {
+      margin-top: 20px;
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 0 12px #000;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎵 Rock Song Generator</h1>
+  <p>Click below to discover a classic rock hit!</p>
+
+  <div>
+    <button onclick="generateSong()">Generate Song</button>
+  </div>
+
+  <div id="output"></div>
+
+  <script>
+    const songs = [
+      {
+        title: "Even Flow",
+        artist: "Pearl Jam",
+        genre: "Grunge",
+        year: 1991,
+        cover: "https://i1.sndcdn.com/artworks-pewMD4eo1wHAArvs-SEQCIQ-t500x500.jpg"
+      },
+      {
+        title: "Sweet Child O' Mine",
+        artist: "Guns N' Roses",
+        genre: "Classic Rock",
+        year: 1987,
+        cover: "https://img.apmcdn.org/f5a23d98feae8e04e6df504a3296616de46177f1/square/fb0bea-files-2015-05-appetite-for-destruction-600.jpg"
+      },
+      {
+        title: "Back in Black",
+        artist: "AC/DC",
+        genre: "Classic Rock",
+        year: 1980,
+        cover: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/ACDC_Back_in_Black.png/1200px-ACDC_Back_in_Black.png"
+      },
+      {
+        title: "Californication",
+        artist: "Red Hot Chili Peppers",
+        genre: "Alternative Rock",
+        year: 1999,
+        cover: "https://m.media-amazon.com/images/I/61QO9SogAUL._UXNaN_FMjpg_QL85_.jpg"
+      },
+      {
+        title: "Say It Ain’t So",
+        artist: "Weezer",
+        genre: "Alternative Rock",
+        year: 1994,
+        cover: "https://i.scdn.co/image/ab67616d0000b273345536847e60f622ee0eae96"
+      },
+      {
+        title: "Seven Nation Army",
+        artist: "The White Stripes",
+        genre: "Garage Rock",
+        year: 2003,
+        cover: "https://i.scdn.co/image/ab67616d0000b273f5ae4810a9529d7614e28e76"
+      },
+      {
+        title: "Everlong",
+        artist: "Foo Fighters",
+        genre: "Alternative Rock",
+        year: 1997,
+        cover: "https://i.scdn.co/image/ab67616d0000b273d400d27cba05bb0545533864"
+      },
+      {
+        title: "Gimme Shelter",
+        artist: "The Rolling Stones",
+        genre: "Classic Rock",
+        year: 1969,
+        cover: "https://cdn-images.dzcdn.net/images/cover/966fa939bd79e15d413abf0764f8a3b5/500x500.jpg"
+      },
+      {
+        title: "Let It Be",
+        artist: "The Beatles",
+        genre: "Classic Rock",
+        year: 1970,
+        cover: "https://www.beatlesbible.com/wp/media/let_it_be.jpg"
+      },
+      {
+        title: "London Calling",
+        artist: "The Clash",
+        genre: "Punk Rock",
+        year: 1979,
+        cover: "https://cdn-p.smehost.net/sites/b6780744564a402b862de158ea0ccacb/wp-content/uploads/2018/04/TheClash_LondonCalling_14-December-1979.jpg"
+      },
+      {
+        title: "Call Me",
+        artist: "Blondie",
+        genre: "New Wave",
+        year: 1980,
+        cover: "https://i.scdn.co/image/ab67616d0000b27313cbe3e4dfa81fe5b91f2f1c"
+      },
+      {
+        title: "Zombie",
+        artist: "The Cranberries",
+        genre: "Alternative Rock",
+        year: 1994,
+        cover: "https://i.discogs.com/wd2gym6h75KCHaC4mCtytO1ssMCRMcoZ-M2tpbRHaw4/rs:fit/g:sm/q:90/h:597/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTExOTg2/MDUtMTY1Mjk2NzM3/NC03MTgzLmpwZWc.jpeg"
+      },
+       {
+        title: "LA Woman",
+        artist: "The Doors",
+        genre: "Psychedelic Rock",
+        year: 1971,
+        cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpZ-ZLe47OKGTl5Kmdvx63P0jtJ33o7K9l5A&s"
+      },
+      {
+        title: "Baba O'Riley",
+        artist: "The Who",
+        genre: "Classic Rock",
+        year: 1971,
+        cover: "https://www.udiscovermusic.com/wp-content/uploads/2023/09/TheWho-3000DPI300RGB1000401978-1-820x820.jpg"
+      },
+      {
+        title: "Take It Easy",
+        artist: "Eagles",
+        genre: "Rock",
+        year: 1972,
+        cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYUyMeifc0cQVGpc0lUI-NdYR1ICRwuKvgRFuCsBWbXeSzttF1aoB1VcmwOp830pk0-5g&usqp=CAU"
+      },
+      {
+        title: "Ironic",
+        artist: "Alanis Morissette",
+        genre: "Alternative Rock",
+        year: 1995,
+        cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCv3vNNiccV5vYszY-VAwRBQu5swKD67GmN4Zj8_JOQdJIZ0WHBGP9R6hJbQXpeR2zM_I&usqp=CAU"
+      },
+      {
+        title: "Misery Business",
+        artist: "Paramore",
+        genre: "Alternative Rock",
+        year: 2007,
+        cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFcIe39ozJEPVYoQRmO39c8e0olbCZZWfMNFEf09-oGJJfrMWyC7BZVCXTOCoEbNfYNlU&usqp=CAU"
+      },
+      {
+        title: "Mr. Brightside",
+        artist: "The Killers",
+        genre: "Alternative Rock",
+        year: 2004,
+        cover: "https://i.discogs.com/MpIkVBDfQglAs9vDLffp-5vEQEkvxlmoFmi8iv6iwFk/rs:fit/g:sm/q:40/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI4OTE4/MDItMTUyMzE5NDk0/NS0xMDEyLmpwZWc.jpeg"
+      },
+      {
+        title: "Stairway to Heaven",
+        artist: "Led Zeppelin",
+        genre: "Classic Rock",
+        year: 1971,
+        cover: "https://cdn-images.dzcdn.net/images/cover/460a0edd96f743be03b7405eac38c633/1900x1900-000000-80-0-0.jpg"
+      },
+      {
+        title: "Fortunate Son",
+        artist: "Creedence Clearwater Revival",
+        genre: "Rock",
+        year: 1969,
+        cover: "https://m.media-amazon.com/images/I/61Ze8TdgdRL._UF1000,1000_QL80_.jpg"
+      },
+      {
+        title: "Sunshine of Your Love",
+        artist: "Cream",
+        genre: "Classic Rock",
+        year: 1967,
+        cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU0FMGqnePGwIatzlxtDsa6BGbmYaVwN6LVV4YiMYuZJE3fLTXCkKHWhPISbdzQh1brFs&usqp=CAU"
+      },
+      {
+        title: "With or Without You",
+        artist: "U2",
+        genre: "Rock",
+        year: 1987,
+        cover: "https://www.go-to-ireland.com/wp-content/uploads/2023/09/u2-joshua-tree-with-or-without-you.jpg"
+      },
+      {
+        title: "There Is a Light That Never Goes Out",
+        artist: "The Smiths",
+        genre: "Alternative Rock",
+        year: 1986,
+        cover: "https://m.media-amazon.com/images/I/71n8bP01wxL._UF894,1000_QL80_.jpg"
+      },
+      {
+        title: "Landslide",
+        artist: "Fleetwood Mac",
+        genre: "Rock",
+        year: 1975,
+        cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtqzkbIu34YpRAf-WGLdiV2IFqn7C3bEHF9S8783X1wLcRpjPBXKBaJQV2crLiU8xtS48&usqp=CAU"
+      },
+      {
+        title: "Me and Bobby McGee",
+        artist: "Janis Joplin",
+        genre: "Rock",
+        year: 1971,
+        cover: "https://static.stereogum.com/uploads/2019/01/Janis-Joplin-Me-And-Bobby-McGee-1548276624.jpg"
+      },
+      {
+        title: "You're So Vain",
+        artist: "Carly Simon",
+        genre: "Pop Rock",
+        year: 1972,
+        cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVi_8bPGtV2lNJ71fmZSDGBvBqb-hVP5ujmgzAUZEInYBlsGYUhExucHUjSnI9YxCfasM&usqp=CAU"
+      },
+      {
+        title: "All Along the Watchtower",
+        artist: "Jimi Hendrix",
+        genre: "Rock",
+        year: 1968,
+        cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8m0ZWrCCFa_BpHEYVIaNri1BgMB5Evufge5i_lpdrkqL4c9VMdgkC33sJ95qSROHsaWk&usqp=CAU"
+      },
+      {
+        title: "Comfortably Numb",
+        artist: "Pink Floyd",
+        genre: "Progressive Rock",
+        year: 1979,
+        cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7F0QMJlvmAzfkXMXSKJd3lScgv2aCflsEvA&s"
+      },
+      {
+        title: "Losing My Religion",
+        artist: "R.E.M.",
+        genre: "Alternative Rock",
+        year: 1991,
+        cover: "https://upload.wikimedia.org/wikipedia/en/7/72/R.E.M._-_Losing_My_Religion.jpg"
+      },
+      {
+        title: "Only Happy When It Rains",
+        artist: "Garbage",
+        genre: "Alternative Rock",
+        year: 1995,
+        cover: "https://i.scdn.co/image/ab67616d0000b2730dbee17e25d160f6f2f4d92f"
+      },
+      {
+        title: "Crazy on You",
+        artist: "Heart",
+        genre: "Hard Rock",
+        year: 1976,
+        cover: "https://upload.wikimedia.org/wikipedia/en/5/5a/Crazy_on_You_-_Heart.jpg"
+      },
+      {
+        title: "Dream On",
+        artist: "Aerosmith",
+        genre: "Classic Rock",
+        year: 1973,
+        cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPcfnUcHToOlPQrH4KSJ2nkWfo2_AARbODNlVB_BN_9fTX38y64s9dp8wOo4h90iKpzjM&usqp=CAU"
+      },
+      {
+        title: "Because the Night",
+        artist: "Patti Smith Group",
+        genre: "Rock",
+        year: 1978,
+        cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbFhKz1qtSiNWzk55VMGysR1WetC4P1rr3iHI3XPW7fyEZhO51BTwflhw4oTO3NDrZbj4&usqp=CAU"
+      },
+      {
+        title: "Starman",
+        artist: "David Bowie",
+        genre: "Glam Rock",
+        year: 1972,
+        cover: "https://m.media-amazon.com/images/I/51jon3Nl4GL._UF1000,1000_QL80_.jpg"
+      },
+      {
+        title: "I Love Rock 'n' Roll",
+        artist: "Joan Jett & The Blackhearts",
+        genre: "Hard Rock",
+        year: 1981,
+        cover: "https://m.media-amazon.com/images/I/61h+wIjCa+L._UF1000,1000_QL80_.jpg"
+      },
+      {
+        title: "Just a Girl",
+        artist: "No Doubt",
+        genre: "Alternative Rock",
+        year: 1995,
+        cover: "https://i.ytimg.com/vi/liSwJDJtmPw/mqdefault.jpg"
+      },
+      {
+        title: "Saturday Night's Alright for Fighting",
+        artist: "Elton John",
+        genre: "Rock",
+        year: 1973,
+        cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNsoc9FO2NI6apZWGcCZfj6jmpeV4Tmt0DWNAF_-DvQaL0bvXD8QIPC0RELvNgxRuKXbg&usqp=CAU"
+      },
+      {
+        title: "Hit Me with Your Best Shot",
+        artist: "Pat Benatar",
+        genre: "Rock",
+        year: 1980,
+        cover: "https://i.scdn.co/image/ab67616d0000b2731b83255ef342451b977987aa"
+      }
+    ];
+
+    function generateSong() {
+      const song = songs[Math.floor(Math.random() * songs.length)];
+
+      document.getElementById("output").innerHTML = `
+        <strong>${song.title}</strong> by <em>${song.artist}</em> (${song.year})<br>
+        <small>Genre: ${song.genre}</small><br>
+        <img src="${song.cover}" alt="${song.title} cover" />
+      `;
+    }
+  </script>
+</body>
+</html>
